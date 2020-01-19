@@ -76,49 +76,4 @@ class ZohoCRMUsers extends ZohoCRM { // Not an abstract because we instantiate i
 
     }
 
-
-    // public static function list( $batch_size = 20, $page = 1) {
-    //
-    //     $instance = static::new();
-    //
-    //
-    //     // Markup: getRecords($cvId = null, $sortByField = null, $sortOrder = null, $startIndex = 1, $endIndex = 200, $headers = null)
-    //     // $startIndex = ( $page - 1 ) * $batch_size + 1;
-    //     // $endIndex = $page * $batch_size;
-    //     // echo '<br />Start index: ' . $startIndex;
-    //     // echo '<br />End index: ' . $endIndex;
-    //     // return;
-    //     $bulkAPIResponse = static::$module_instance->getRecords( null, null, null, $page, $batch_size );
-    //
-    //     $records = $bulkAPIResponse->getData(); // $records - array of ZCRMRecord instances.
-    //
-    //     // Transform the array of ZCRMRecord into a simple "array of array" with the record ID as index.
-    //     $return = [];
-    //     foreach ($records as $key => $record) {
-    //         $id      = $record -> getEntityId();
-    //         $created = $record -> getCreatedTime();
-    //
-    //         $return[$id] = $record->getData();
-    //
-    //         // For products we need to extract the products in a particular format.
-    //         if ( self::$module == 'Quotes' ) {
-    //             $return[$id]['products'] = self::extract_products( $record );
-    //         }
-    //
-    //         // Attach the Records ID and Created times.
-    //         $return[$id]['id'] = $id;
-    //         $return[$id]['created'] = $created;
-    //     }
-    //
-    //     return $return;
-    //
-    //     echo '<pre>';
-    //     print_r( count( $return ) );
-    //     print_r( $return );
-    //     echo '</pre>';
-    //
-    // }
-
-
-
 }
