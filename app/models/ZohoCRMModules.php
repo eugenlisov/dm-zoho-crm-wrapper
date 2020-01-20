@@ -56,10 +56,9 @@ class ZohoCRMModules extends ZohoCRM { // Not an abstract because we instantiate
 
         // NOTE: we do getData() twice because the first one returns a ZCRMRecord Object
         $record = $apiResponse -> getData();
-        $record = static::extract_record_details( $record, $args );
-        
+        $return = static::extract_record_details( $record, $args );
 
-        return $record;
+        return $return;
 
     }
 
@@ -76,15 +75,18 @@ class ZohoCRMModules extends ZohoCRM { // Not an abstract because we instantiate
         $return['id']      = $record -> getEntityId();
         $return['created'] = $record -> getCreatedTime();
 
-        $return = static::extract_module_specific_details( $record, $args);
+
+
+        $return = static::extract_module_specific_details( $record, $return, $args);
 
         return $return;
 
     }
 
 
-    protected function extract_module_specific_details( $record = '', $args = []) {
+    protected static function extract_module_specific_details( $record = '', $return = '', $args = []) {
         // Define in child.
+        return $return;
     }
 
 
@@ -197,7 +199,22 @@ class ZohoCRMModules extends ZohoCRM { // Not an abstract because we instantiate
        $record=ZCRMRecord::getInstance( static::$module, null );
 
        foreach ($record_data as $field => $value) {
+           if ( $field == 'products' ) continue;
+           if ( $field == 'sign' ) continue;
            $record->setFieldValue( $field, $value );
+       }
+
+
+       // TEMP:
+       if ( static::$module == 'Quotes' ) {
+
+               // Add the Estimate products to the Quote
+               foreach ($record_data['products'] as $key => $product) {
+                   $product_line_item = $this -> build_product_line_item( $product, $record_data['sign'] );
+                   $record->addLineItem($product_line_item);
+               }
+
+        
        }
 
        $bulkAPIResponse = static::$module_instance->createRecords( [$record] ); 
@@ -309,6 +326,30 @@ class ZohoCRMModules extends ZohoCRM { // Not an abstract because we instantiate
         }
 
         return $return;
+
+    }
+
+
+
+
+
+    /**
+     * Turns a product array from the Estimate into a lineItem which is then passes into the Quote.
+     * @param  [type] $product [description]
+     * @return [type]          [description]
+     * TODO: Move to Quote
+     */
+    private function build_product_line_item( $product, $sign = 1 ) {
+
+        $productInstance=\ZCRMRecord::getInstance("Products", $product['id']);
+
+        $lineItem = \ZCRMInventoryLineItem::getInstance($productInstance);
+        $lineItem->setId( $product['id'] );
+        $lineItem->setQuantity( $product['quantity'] );
+        $lineItem->setTotal( $sign * $product['total'] );
+        $lineItem->setListPrice( $sign * $product['price'] );
+
+        return $lineItem;
 
     }
 

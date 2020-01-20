@@ -6,7 +6,7 @@ class Quote extends ZohoCRMModules {
     static $module = 'Quotes';
 
     
-    protected function extract_module_specific_details( $record = '', $args = []) {
+    protected static function extract_module_specific_details( $record = '', $return = '', $args = []) {
         $return['products'] = static::extract_products( $record );
         $return['dm_account_id'] = static::extract_account_id( $record ); // NB: Need to extract this because searching for a Books Contact doesn't work just with the CRM Account ID.
         $return['dm_potential_name'] = static::extract_potential_name( $record ); // NB: Need to extract this because to populate the value in the 'Notes' field on the Books Estimate.
@@ -14,6 +14,8 @@ class Quote extends ZohoCRMModules {
         if ( ! empty( $args['load_quote_owner'] ) && $args['load_quote_owner'] && ( ! empty( $return['quoteownerid2'] ) ) ) {
             $return['dm_owner'] = User::get( $return['quoteownerid2'] );
         }
+
+        return $return;
 
     }
 
