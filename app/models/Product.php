@@ -40,7 +40,7 @@ class Product extends ZohoCRMModules {
      * Returns a list with all the Active Products in the ZohoCRM
      * It only returns the detauls fields from the listProducts() method above.
      */
-    public static function listAllProducts() {
+    public static function listAllProducts( $just_active = false ) {
 
         $products = [];
         for ($page=1; $page < 20; $page++) { 
@@ -53,10 +53,11 @@ class Product extends ZohoCRMModules {
             $current_batch = static::listProducts( $full_args );
             if ( empty( $current_batch ) ) break;
 
-
-            foreach ($current_batch as $key => $current_product) {
-                if ( $current_product['Product_Active'] != 1 ) unset ( $current_batch[$key] );
-            }
+			if ( $just_active ) {
+				foreach ($current_batch as $key => $current_product) {
+					if ( $current_product['Product_Active'] != 1 ) unset ( $current_batch[$key] );
+				}
+			}
 
             if ( empty( $current_batch ) ) break;
 
