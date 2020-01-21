@@ -2,6 +2,7 @@
 namespace DM_ZCRM\Models;
 
 use Exception;
+use zcrmsdk\crm\crud\ZCRMInventoryLineItem;
 use zcrmsdk\crm\setup\restclient\ZCRMRestClient;
 use zcrmsdk\crm\crud\ZCRMModule;
 use zcrmsdk\crm\crud\ZCRMRecord;
@@ -49,9 +50,10 @@ class ZohoCRMModules extends ZohoCRM { // Not an abstract because we instantiate
 
         try {
             $apiResponse = static::$module_instance -> getRecord( $record_id );
-        } catch (\ZCRMException $e) {
+        } catch (\Exception $e) {
             return [];
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
+			echo 'Caught exception: ',  $e->getMessage(), "\n";
+			return [];
         }
 
         // NOTE: we do getData() twice because the first one returns a ZCRMRecord Object
@@ -133,19 +135,23 @@ class ZohoCRMModules extends ZohoCRM { // Not an abstract because we instantiate
 
     }
 
+	/**
+	 * $properties are added as key -> value
+	 */
+    public static function update( $record_id = false, $properties = [] ) {
 
-    public function update( $record_id = false, $properties = [] ) {
+		static::new();
 
         if ( empty( $record_id ) ) return false;
         if ( empty( $properties ) ) return false;
 
 
-        $record = ZCRMRecord::getInstance( static::$module, null );
+		$record = ZCRMRecord::getInstance( static::$module, null );
 
         $record -> setFieldValue( 'id', $record_id );
         foreach ($properties  as $key => $value) {
             $record->setFieldValue( $key, $value );
-        }
+		}
 
         // $recordsArray - array of ZCRMRecord instances filled with required data for creation.
         $bulkAPIResponse = static::$module_instance->updateRecords( [$record] );
@@ -341,9 +347,9 @@ class ZohoCRMModules extends ZohoCRM { // Not an abstract because we instantiate
      */
     private function build_product_line_item( $product, $sign = 1 ) {
 
-        $productInstance=\ZCRMRecord::getInstance("Products", $product['id']);
+        $productInstance=ZCRMRecord::getInstance("Products", $product['id']);
 
-        $lineItem = \ZCRMInventoryLineItem::getInstance($productInstance);
+        $lineItem = ZCRMInventoryLineItem::getInstance($productInstance);
         $lineItem->setId( $product['id'] );
         $lineItem->setQuantity( $product['quantity'] );
         $lineItem->setTotal( $sign * $product['total'] );
