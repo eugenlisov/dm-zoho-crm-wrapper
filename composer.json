@@ -1,6 +1,6 @@
 {
     "name": "eugenlisov/dm-zoho-crm-wrapper",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "minimum-stability": "dev",
     "description": "A custom wrapper around the ZCRM PHP SDK",
     "keywords": ["Zoho","PHP","Zoho CRM"],
