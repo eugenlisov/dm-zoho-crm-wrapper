@@ -62,6 +62,57 @@ class ZohoCRMModules extends ZohoCRM { // Not an abstract because we instantiate
 
         return $return;
 
+	}
+	
+
+	public static function getFields() {
+
+        static::new();
+
+        try {
+			// $apiResponse = static::$module_instance -> getFields();
+			$apiResponse=static::$module_instance->getAllFields();
+
+        } catch (\Exception $e) {
+            return [];
+			echo 'Caught exception: ',  $e->getMessage(), "\n";
+			return [];
+		}
+
+		$fields=$apiResponse->getData();
+
+		$processed_fields = [];
+
+		foreach ($fields as $key => $field) {
+
+			$options = $field -> getPickListFieldValues();
+			if ( $options ) {
+				foreach ($options as $key => $value) {
+					$options[$key] = $value -> getActualValue();
+				}
+			}
+
+			$extracted = [
+				'section'      => 'No Section Data',
+				'label'        => $field -> getApiName(),
+				'type'         => $field -> getDataType(),
+				'required'     => '',
+				'readOnly'     => '',
+				'maxLength'    => '',
+				'options'      => $options,
+				'customField'  => '',
+				'hidden'       => '',
+				'customClass'  => '',
+				'customId'     => '',
+				'visibleLabel' => $field -> getFieldLabel(),
+			];
+
+			$processed_fields[] = $extracted;
+
+		}
+
+		return $processed_fields;
+		
     }
 
 
