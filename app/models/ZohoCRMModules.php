@@ -83,6 +83,8 @@ class ZohoCRMModules extends ZohoCRM { // Not an abstract because we instantiate
 
 		$processed_fields = [];
 
+		// $processed_fields[] = false;
+
 		foreach ($fields as $key => $field) {
 
 			$options = $field -> getPickListFieldValues();
@@ -90,6 +92,10 @@ class ZohoCRMModules extends ZohoCRM { // Not an abstract because we instantiate
 				foreach ($options as $key => $value) {
 					$options[$key] = $value -> getActualValue();
 				}
+			}
+
+			if (static::isIndustriesLookupField($field)) {
+				$options = Industries::getIndustriesIdValueList();
 			}
 
 			$extracted = [
@@ -110,6 +116,8 @@ class ZohoCRMModules extends ZohoCRM { // Not an abstract because we instantiate
 			$processed_fields[] = $extracted;
 
 		}
+
+		// unset( $processed_fields[0] );
 
 		return $processed_fields;
 		
@@ -304,7 +312,7 @@ class ZohoCRMModules extends ZohoCRM { // Not an abstract because we instantiate
                    'status'         => $entityResponse -> getStatus(),
                    'code'           => $entityResponse -> getCode(),
                    'message'        => $entityResponse -> getMessage(),
-                   'custom_message' => 'The Quote was not generated. See if you can fix the issue and try again. Otherwise, please contact the developer with details about this issue to look into it.',
+                   'custom_message' => 'The Lead was not generated. See if you can fix the issue and try again. Otherwise, please contact the developer with details about this issue to look into it.',
                ];
 
                return $return;
@@ -408,6 +416,15 @@ class ZohoCRMModules extends ZohoCRM { // Not an abstract because we instantiate
 
         return $lineItem;
 
-    }
+	}
+	
+	public static function isIndustriesLookupField($field) {
+		if ($field -> getDataType() != 'lookup') return false;
+
+		$lookupField = $field->getLookupField();
+
+		return ($lookupField->getModule() == 'Training_Modules');
+
+	}
 
 }
