@@ -1,5 +1,5 @@
 <?php
-namespace DM_ZCRM\Models;
+namespace DM_ZCRM\Services;
 
 /**
  * This Service is used when searching an Account by a Zip Code. 
