@@ -24,7 +24,7 @@ class ZohoCRMModules extends ZohoCRM { // Not an abstract because we instantiate
     public function __construct() {
 
         if ( empty( static::$module ) ) return false;
-        parent::__construct();
+		parent::__construct();
 
         static::$module_instance = ZCRMModule::getInstance( static::$module );
 
@@ -49,15 +49,17 @@ class ZohoCRMModules extends ZohoCRM { // Not an abstract because we instantiate
         static::new();
 
         try {
-            $apiResponse = static::$module_instance -> getRecord( $record_id );
+			$apiResponse = static::$module_instance -> getRecord( $record_id );
+
         } catch (\Exception $e) {
-            return [];
+            // return [];
 			echo 'Caught exception: ',  $e->getMessage(), "\n";
 			return [];
         }
 
         // NOTE: we do getData() twice because the first one returns a ZCRMRecord Object
-        $record = $apiResponse -> getData();
+		$record = $apiResponse -> getData();
+
         $return = static::extract_record_details( $record, $args );
 
         return $return;
@@ -82,8 +84,6 @@ class ZohoCRMModules extends ZohoCRM { // Not an abstract because we instantiate
 		$fields=$apiResponse->getData();
 
 		$processed_fields = [];
-
-		// $processed_fields[] = false;
 
 		foreach ($fields as $key => $field) {
 
@@ -116,8 +116,6 @@ class ZohoCRMModules extends ZohoCRM { // Not an abstract because we instantiate
 			$processed_fields[] = $extracted;
 
 		}
-
-		// unset( $processed_fields[0] );
 
 		return $processed_fields;
 		
@@ -158,17 +156,20 @@ class ZohoCRMModules extends ZohoCRM { // Not an abstract because we instantiate
     // ];
     public static function list( $args = [] ) {
 
-        static::new();
+		// dd($args);
+
+		static::new();
+		// dd(static::$module_instance);
 
         try {
-            $bulkAPIResponse = static::$module_instance->getRecords( $args, null ); // Documentation here: https://www.zoho.com/crm/developer/docs/api/get-records.html
+			$bulkAPIResponse = static::$module_instance->getRecords( $args ); // Documentation here: https://www.zoho.com/crm/developer/docs/api/get-records.html
 
-            $records = $bulkAPIResponse->getData(); // $records - array of ZCRMRecord instances.
+			$records = $bulkAPIResponse->getData(); // $records - array of ZCRMRecord instances.
         }
         catch (Exception $e) { // TODO do a better job handling this. ZCRMException should be used.
-            // echo $e->getMessage();
+            echo $e->getMessage();
             return [];
-        }
+		}
 
         // Transform the array of ZCRMRecord into a simple "array of array" with the record ID as index.
         $return = [];
@@ -180,8 +181,14 @@ class ZohoCRMModules extends ZohoCRM { // Not an abstract because we instantiate
 
             // For products we need to extract the products in a particular format.
             if ( static::$module == 'Quotes' ) {
-                $return[$id]['products'] = static::extract_products( $record );
-            }
+				$return[$id]['products'] = static::extract_products( $record );
+				$return[$id]['dm_contact_id'] = static::extract_contact_id( $record ); // NB: Need to extract this because searching for a Books Contact doesn't work just with the CRM Account ID.
+			}
+			
+			if (!empty($return[$id]['Original_Quote'])) {
+				$return[$id]['quote_id'] = $return[$id]['Original_Quote']->getEntityId();
+				unset($return[$id]['Original_Quote']);
+			}
 
             // Attach the Records ID and Created times.
             $return[$id]['id'] = $id;
@@ -209,13 +216,20 @@ class ZohoCRMModules extends ZohoCRM { // Not an abstract because we instantiate
 
         $record -> setFieldValue( 'id', $record_id );
         foreach ($properties  as $key => $value) {
+			if ($key =='products') continue;
             $record->setFieldValue( $key, $value );
 		}
 
+		$productDetails = [];
+
+	   $record->Product_Details = $productDetails;
+	   
+	   $record -> setEntityId( $record_id );
+
         // $recordsArray - array of ZCRMRecord instances filled with required data for creation.
         $bulkAPIResponse = static::$module_instance->updateRecords( [$record] );
-        $entityResponses = $bulkAPIResponse->getEntityResponses();
-
+		$entityResponses = $bulkAPIResponse->getEntityResponses();
+		
         foreach($entityResponses as $entityResponse)
         {
             if ("success"==$entityResponse->getStatus()) {
@@ -231,11 +245,11 @@ class ZohoCRMModules extends ZohoCRM { // Not an abstract because we instantiate
                     'status'         => $entityResponse -> getStatus(),
                     'code'           => $entityResponse -> getCode(),
                     'message'        => $entityResponse -> getMessage(),
-                    'custom_message' => 'The Quote was not generated. See if you can fix the issue and try again. Otherwise, please contact the developer with details about this issue to look into it.',
+                    'custom_message' => 'The Record was not generated. See if you can fix the issue and try again. Otherwise, please contact the developer with details about this issue to look into it.',
                 ];
 
             }
-        }
+		}
 
         // Force trigger the workflow; TODO: Check that it really works
         $record -> update( ['workflow'] );
@@ -264,7 +278,7 @@ class ZohoCRMModules extends ZohoCRM { // Not an abstract because we instantiate
        $record=ZCRMRecord::getInstance( static::$module, null );
 
        foreach ($record_data as $field => $value) {
-           if ( $field == 'products' ) continue;
+        //    if ( $field == 'products' ) continue;
            if ( $field == 'sign' ) continue;
            $record->setFieldValue( $field, $value );
        }
@@ -275,7 +289,7 @@ class ZohoCRMModules extends ZohoCRM { // Not an abstract because we instantiate
 
                // Add the Estimate products to the Quote
                foreach ($record_data['products'] as $key => $product) {
-                   $product_line_item = $this -> build_product_line_item( $product, $record_data['sign'] );
+                   $product_line_item = static::build_product_line_item( $product, $record_data['sign'] );
                    $record->addLineItem($product_line_item);
                }
 
@@ -312,7 +326,7 @@ class ZohoCRMModules extends ZohoCRM { // Not an abstract because we instantiate
                    'status'         => $entityResponse -> getStatus(),
                    'code'           => $entityResponse -> getCode(),
                    'message'        => $entityResponse -> getMessage(),
-                   'custom_message' => 'The Lead was not generated. See if you can fix the issue and try again. Otherwise, please contact the developer with details about this issue to look into it.',
+                   'custom_message' => 'The Record was not generated. See if you can fix the issue and try again. Otherwise, please contact the developer with details about this issue to look into it.',
                ];
 
                return $return;
@@ -354,6 +368,8 @@ class ZohoCRMModules extends ZohoCRM { // Not an abstract because we instantiate
 
 
     private static function find( $criteria_string ) {
+
+		dd($criteria_string);
 
         // Only this initializes the model and runs the construction on the parent.
         $instance = static::new();
@@ -404,7 +420,7 @@ class ZohoCRMModules extends ZohoCRM { // Not an abstract because we instantiate
      * @return [type]          [description]
      * TODO: Move to Quote
      */
-    private function build_product_line_item( $product, $sign = 1 ) {
+    private static function build_product_line_item( $product, $sign = 1 ) {
 
         $productInstance=ZCRMRecord::getInstance("Products", $product['id']);
 
@@ -412,7 +428,9 @@ class ZohoCRMModules extends ZohoCRM { // Not an abstract because we instantiate
         $lineItem->setId( $product['id'] );
         $lineItem->setQuantity( $product['quantity'] );
         $lineItem->setTotal( $sign * $product['total'] );
-        $lineItem->setListPrice( $sign * $product['price'] );
+		$lineItem->setListPrice( $sign * $product['price'] );
+		$lineItem->setDescription( $product['description'] );
+		
 
         return $lineItem;
 
