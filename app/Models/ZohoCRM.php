@@ -22,16 +22,25 @@ class ZohoCRM { // Not an abstract because we instantiate it at one point.
     //     "token_persistence_path" => DM_ROOT_CONSTANT,
     // ]);
     public function __construct() {
-        if ( ! defined( 'DM_ZCRM_CONFIGURATION' ) ) {
-            echo 'DM_ZCRM_CONFIGURATION is not defined';
-            return;
+		$configuration = null;
+
+		// If in Wordpress, read the constant.
+        if ( defined( 'DM_ZCRM_CONFIGURATION' ) ) {
+            $configuration = DM_ZCRM_CONFIGURATION;
         }
-        $configuration = DM_ZCRM_CONFIGURATION;
+		
+		// If in Laravel, read the config file
+		if ( function_exists('config') && ! empty( config('constants.zcrm_configuration') ) ) {
+            $configuration = config('constants.zcrm_configuration');
+        }
+		
+		if (empty($configuration)) {
+			echo 'ZCRM Configuration coultr not be found.';
+			return;
+		}
 
         ZCRMRestClient::initialize($configuration);
 
-    }
-
-
-
+	}
+	
 }
