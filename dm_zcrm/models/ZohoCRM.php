@@ -22,7 +22,7 @@ class ZohoCRM { // Not an abstract because we instantiate it at one point.
     //     "token_persistence_path" => DM_ROOT_CONSTANT,
     // ]);
     public function __construct() {
-        if ( empty( DM_ZCRM_CONFIGURATION ) ) {
+        if ( ! defined( 'DM_ZCRM_CONFIGURATION' ) ) {
             echo 'DM_ZCRM_CONFIGURATION is not defined';
             return;
         }
