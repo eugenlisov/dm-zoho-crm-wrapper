@@ -1,6 +1,8 @@
 # dm-zoho-crm-wrapper
 A custom wrapper around the ZCRM PHP SDK
 
+* [Version History](docs/VersionHistory.md)
+
 
 ## Pushing to Packagist.
 - Make sure everything is pushed to GitHub.
