@@ -2,7 +2,7 @@
     "name": "eugenlisov/dm-zoho-crm-wrapper",
     "version": "1.0.12",
     "minimum-stability": "dev",
-    "description": "A custom wrapper around the ZCRM PHP SDK",
+    "description": "A custom wrapper around the ZCRM PHP SDK V2.**",
     "keywords": ["Zoho","PHP","Zoho CRM"],
     "homepage": "https://github.com/eugenlisov/dm-zoho-crm-wrapper",
     "license": "MIT",
