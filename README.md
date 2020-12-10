@@ -18,3 +18,8 @@ A custom wrapper around the ZCRM PHP SDK
 Used by:
 - Product views
 - Foss Report
+
+
+## Tests to be written
+Quote:
+- Quote::get() always returns dm_account_id, dm_contact_id, dm_potential_name (and dm_potential_id)
