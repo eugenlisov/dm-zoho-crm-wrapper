@@ -8,7 +8,8 @@ class Quote extends ZohoCRMModules {
     
     protected static function extract_module_specific_details( $record = '', $return = '', $args = []) {
         $return['products'] = static::extract_products( $record );
-        $return['dm_account_id'] = static::extract_account_id( $record ); // NB: Need to extract this because searching for a Books Contact doesn't work just with the CRM Account ID.
+		$return['dm_account_id'] = static::extract_account_id( $record ); // NB: Need to extract this because searching for a Books Contact doesn't work just with the CRM Account ID.
+		$return['dm_contact_id'] = static::extract_contact_id( $record ); // NB: Need to extract this because searching for a Books Contact doesn't work just with the CRM Account ID.
         $return['dm_potential_name'] = static::extract_potential_name( $record ); // NB: Need to extract this because to populate the value in the 'Notes' field on the Books Estimate.
 
         if ( ! empty( $args['load_quote_owner'] ) && $args['load_quote_owner'] && ( ! empty( $return['quoteownerid2'] ) ) ) {
@@ -63,6 +64,15 @@ class Quote extends ZohoCRMModules {
         $account_name = $account['Account_Name'];
         $account_id = $account_name -> getEntityId();
         return $account_id;
+
+	}
+	
+	public static function extract_contact_id( $record = '' ) {
+
+        $quote = $record->getData();
+        $contact_name = $quote['Contact_Name'];
+        $contact_id = $contact_name -> getEntityId();
+        return $contact_id;
 
     }
 
