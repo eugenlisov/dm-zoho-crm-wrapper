@@ -70,7 +70,8 @@ class Quote extends ZohoCRMModules {
 	public static function extract_contact_id( $record = '' ) {
 
         $quote = $record->getData();
-        $contact_name = $quote['Contact_Name'];
+		$contact_name = $quote['Contact_Name'];
+		if (empty($contact_name)) return '';
         $contact_id = $contact_name -> getEntityId();
         return $contact_id;
 
