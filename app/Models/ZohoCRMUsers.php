@@ -1,11 +1,6 @@
 <?php
 namespace DM_ZCRM\Models;
 
-use zcrmsdk\crm\setup\restclient\ZCRMRestClient;
-use zcrmsdk\crm\crud\ZCRMModule;
-use zcrmsdk\crm\crud\ZCRMRecord;
-use zcrmsdk\oauth\ZohoOAuth;
-use zcrmsdk\crm\setup\users\ZCRMUser;
 use zcrmsdk\crm\setup\org\ZCRMOrganization;
 
 // NOTE: This is copied from the RMA Plugin and adapted
