@@ -1,5 +1,9 @@
 # Version History
 
+##  1.0.13 (released 2020-12-11)
+* Copied RMAManagement and Vendor models from the RMA repo.
+* Copied LayoutFieldsExtractor helper and several functions in the Lead model from Zoho Forms
+
 ##  1.0.12 (released 2020-12-10)
 * Made sure the Quote::get() always includes the dm_contact_id value.
 
