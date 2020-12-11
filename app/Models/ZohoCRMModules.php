@@ -67,7 +67,7 @@ class ZohoCRMModules extends ZohoCRM { // Not an abstract because we instantiate
 	}
 	
 
-	public static function getFields() {
+	public static function getFields() { // Used the the LayoutFieldsExtractor in Lead
 
         static::new();
 
@@ -185,6 +185,7 @@ class ZohoCRMModules extends ZohoCRM { // Not an abstract because we instantiate
 				$return[$id]['dm_contact_id'] = static::extract_contact_id( $record ); // NB: Need to extract this because searching for a Books Contact doesn't work just with the CRM Account ID.
 			}
 			
+			// Used in the RMAManagement
 			if (!empty($return[$id]['Original_Quote'])) {
 				$return[$id]['quote_id'] = $return[$id]['Original_Quote']->getEntityId();
 				unset($return[$id]['Original_Quote']);
@@ -280,7 +281,8 @@ class ZohoCRMModules extends ZohoCRM { // Not an abstract because we instantiate
        }
 
 
-       // TEMP:
+	   // TEMP:
+	//    TODO: Created addRecordSpecifficData() method
        if ( static::$module == 'Quotes' ) {
 
                // Add the Estimate products to the Quote
