@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7efd7e270bc0420202e02b30a1339cdc",
+    "content-hash": "9dd6b60fecb72a4598de08bc6f066d5c",
     "packages": [
         {
             "name": "zohocrm/php-sdk-archive",
