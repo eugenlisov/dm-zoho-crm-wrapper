@@ -13,7 +13,7 @@
               ]
         }
 	},
-	"require": {
-        "zohocrm/php-sdk-archive": "^2.2"
-	}
+    "require": {
+        "zohocrm/php-sdk": "3.0.0"
+    }
 }
