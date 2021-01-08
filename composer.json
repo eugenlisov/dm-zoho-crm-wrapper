@@ -11,7 +11,10 @@
             "DM_ZCRM\\": [
                 "app"
               ]
-        }
+		},
+		"classmap": [ // TEMPorarily added like this because the Zoho CRM SDK is not PSR-4 compliant
+			"vendor/zohocrm"
+		]
 	},
 	"autoload-dev": {
         "psr-4": {
