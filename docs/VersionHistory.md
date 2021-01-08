@@ -1,5 +1,8 @@
 # Version History
 
+##  2.0.1-alpha (current)
+* Starting working with Zoho PHP SDK V3
+
 ##  1.0.13 (released 2020-12-11)
 * Copied RMAManagement and Vendor models from the RMA repo.
 * Copied LayoutFieldsExtractor helper and several functions in the Lead model from Zoho Forms
