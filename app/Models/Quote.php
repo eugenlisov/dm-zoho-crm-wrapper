@@ -1,11 +1,44 @@
 <?php
 namespace DM_ZCRM\Models;
 
+use com\zoho\crm\api\record\InventoryLineItems;
+
 class Quote extends ZohoCRMModules {
 
-    static $module = 'Quotes';
+	static $module = 'Quotes';
 
-    
+	public static function extractProducts(Array $record) {
+
+		$return = [];
+
+		foreach ($record['Product_Details'] as $key => $item) {
+			$return[] = static::extractLineItem($item);
+		}
+
+		return $return;
+	}
+
+	public static function extractLineItem(InventoryLineItems $item) {
+		$product = $item->getProduct();
+
+		$return = [
+			'id'                  => $product->getId(),
+			'name'                => $product->getName(),
+			'list_price'          => $item->getListPrice(),
+			'quantity'            => $item->getQuantity(),
+			'description'         => $item->getProductDescription(),
+			'discount'            => (int) $item->getDiscount(),
+			'discount_percentage' => 0, // NB: There is no method to get this.
+		];
+
+		return $return;
+	}
+	
+	
+
+	// Everything below is deprecated
+	
+
     protected static function extract_module_specific_details( $record = '', $return = '', $args = []) {
         $return['products'] = static::extract_products( $record );
 		$return['dm_account_id'] = static::extract_account_id( $record ); // NB: Need to extract this because searching for a Books Contact doesn't work just with the CRM Account ID.
