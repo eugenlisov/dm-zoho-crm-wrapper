@@ -4,8 +4,10 @@ namespace Tests\Unit\Models;
 
 use com\zoho\crm\api\record\InventoryLineItems;
 use com\zoho\crm\api\record\LineItemProduct;
+use DM_ZCRM\Models\BaseRecord;
 use DM_ZCRM\Models\Quote;
 use Tests\CustomTestCase;
+use Tests\TestDoubles\Spies\Quote\QuoteSpy;
 
 class QuoteTest extends CustomTestCase
 {
@@ -19,6 +21,24 @@ class QuoteTest extends CustomTestCase
 		'discount'            => 0,
 		'discount_percentage' => 0,
 	];
+
+	// public function testGetInitializesSdkAndRunsDataExtraction() {
+	// 	QuoteSpy::get(123);
+
+	// 	// dd(Quote::$recordInstance);
+
+	// 	$this->assertInstanceOf(BaseRecord::class, Quote::$recordInstance);
+	// 	$this->assertEquals('Quotes', Quote::$recordInstance->module);
+
+	// 	$expectedSpy = [
+	// 		'initializing sdk',
+	// 		// 'getting api quote record 123',
+	// 		// 'extracting general record data',
+	// 		// 'exrtacting speciffic quote data',
+	// 	];
+
+	// 	$this->assertEquals($expectedSpy, QuoteSpy::$spy);
+	// }
 
     public function testItExtractsLineItem()
     {

@@ -2,14 +2,10 @@
 
 namespace Tests\Unit\Models;
 
-use com\zoho\crm\api\record\InventoryLineItems;
-use com\zoho\crm\api\record\LineItemProduct;
-use DM_ZCRM\Models\BaseRecord;
-use DM_ZCRM\Models\Quote;
 use Tests\CustomTestCase;
-use Tests\TestDoubles\Spies\BaseRecordInitializationSpy;
+use Tests\TestDoubles\Spies\BaseRecord\BaseRecordInitializationSpy;
 
-class BaseRecordTest extends CustomTestCase
+class BaseRecordInitializationTest extends CustomTestCase
 {
 
 	public function testItInitializesTheSdk() {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\TestDoubles\Spies;
+namespace Tests\TestDoubles\Spies\BaseRecord;
 
 use DM_ZCRM\Models\BaseRecord;
 

@@ -16,12 +16,14 @@ class Initialize
 {
     public static function initialize()
     {
+		$configuration = static::configuration();
+
         /*
 		 * Create an instance of Logger Class that takes two parameters
 		 * 1 -> Level of the log messages to be logged. Can be configured by typing Levels "." and choose any level from the list displayed.
 		 * 2 -> Absolute file path, where messages need to be logged.
 		 */
-        $logger = Logger::getInstance(Levels::INFO, ZOHO3_ROOT . "/php_sdk_log.log");
+        $logger = Logger::getInstance(Levels::INFO, $configuration["token_persistence_path"] . "/php_sdk_log.log");
 
         //Create an UserSignature instance that takes user Email as parameter
 		$user = new UserSignature("support@gofleet.ca");
@@ -44,7 +46,7 @@ class Initialize
             * 5 -> Token type(REFRESH/GRANT).
 		*/
 		
-		$configuration = static::configuration();
+		
 
 		// $token = new OAuthToken("clientId", "clientSecret", "REFRESH/GRANT token", TokenType::REFRESH/GRANT, "redirectURL");
 		$token = new OAuthToken($configuration["client_id"], $configuration["client_secret"], $configuration["refresh_token"], 'refresh', $configuration["redirect_uri"]);

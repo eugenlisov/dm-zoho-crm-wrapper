@@ -3,9 +3,9 @@ namespace DM_ZCRM\Models;
 
 use com\zoho\crm\api\record\InventoryLineItems;
 
-class Quote extends ZohoCRMModules {
+class Quote extends BaseRecord {
 
-	static $module = 'Quotes';
+	public $module = 'Quotes';
 
 	public static function extractProducts(Array $record) {
 
