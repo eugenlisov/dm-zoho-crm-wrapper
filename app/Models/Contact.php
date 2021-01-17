@@ -1,8 +1,8 @@
 <?php
 namespace DM_ZCRM\Models;
 
-class Contact extends ZohoCRMModules {
+class Contact extends BaseRecord {
 
-    static $module = 'Contacts';
+	public $module = 'Contacts';
 
 }

@@ -3,9 +3,9 @@ namespace DM_ZCRM\Models;
 
 use DM_ZCRM\Helpers\LayoutFieldsExtractor;
 
-class Lead extends ZohoCRMModules {
+class Lead extends BaseRecord {
 
-	static $module = 'Leads';
+	public $module = 'Leads';
 	
 	/**
 	 * Loads the Standard Layout from the CRM and extracts the Fields off it, while making sure to also populate the Section Name

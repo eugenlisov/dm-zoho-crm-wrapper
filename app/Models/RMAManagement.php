@@ -2,9 +2,9 @@
 
 namespace DM_ZCRM\Models;
 
-class RMAManagement extends ZohoCRMModules {
+class RMAManagement extends BaseRecord {
 
-	static $module = 'Sales_dashboard';
+	public $module = 'Sales_dashboard';
 	
 	protected static function extract_module_specific_details( $record = null, $return = [], $args = []) {
 
