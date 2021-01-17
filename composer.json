@@ -12,7 +12,7 @@
                 "app"
               ]
 		},
-		"classmap": [ // TEMPorarily added like this because the Zoho CRM SDK is not PSR-4 compliant
+		"classmap": [
 			"vendor/zohocrm"
 		]
 	},
