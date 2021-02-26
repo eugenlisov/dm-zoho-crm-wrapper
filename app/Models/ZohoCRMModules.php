@@ -367,7 +367,7 @@ class ZohoCRMModules extends ZohoCRM { // Not an abstract because we instantiate
 
     private static function find( $criteria_string ) {
 
-		dd($criteria_string);
+		// dd($criteria_string);
 
         // Only this initializes the model and runs the construction on the parent.
         $instance = static::new();
