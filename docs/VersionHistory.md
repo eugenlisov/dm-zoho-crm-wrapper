@@ -1,5 +1,8 @@
 # Version History
 
+## 1.0.14 (released 2021-02-26)
+* A quick cleanup allowing search to work
+
 ##  1.0.13 (released 2020-12-11)
 * Copied RMAManagement and Vendor models from the RMA repo.
 * Copied LayoutFieldsExtractor helper and several functions in the Lead model from Zoho Forms
