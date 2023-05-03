@@ -14,6 +14,12 @@
         }
 	},
 	"require": {
-        "zohocrm/php-sdk-archive": "^2.2"
-	}
+		"zohocrm/php-sdk-archive": "dev-php81" 
+	},
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/DevMaverickTeam/zcrm-php-sdk-php81.git"
+		}
+	]
 }
