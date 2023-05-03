@@ -1,6 +1,26 @@
 # dm-zoho-crm-wrapper
 A custom wrapper around the ZCRM PHP SDK
 
+
+No longer requiring the PHP SDK directly. Instead use a fork in the project. Add this to the Project:
+
+"require": {
+		"zohocrm/php-sdk-archive": "dev-php81" 
+	},
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/DevMaverickTeam/zcrm-php-sdk-php81.git"
+		}
+	]
+
+
+
+
+
+
+--------------------
+
 * [Version History](docs/VersionHistory.md)
 
 

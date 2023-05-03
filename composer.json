@@ -1,8 +1,8 @@
 {
     "name": "eugenlisov/dm-zoho-crm-wrapper",
-    "version": "1.0.15",
+    "version": "1.0.16",
     "minimum-stability": "dev",
-    "description": "A custom wrapper around the ZCRM PHP SDK V2.**",
+    "description": "A custom wrapper around the ZCRM PHP SDK V2.** . ",
     "keywords": ["Zoho","PHP","Zoho CRM"],
     "homepage": "https://github.com/eugenlisov/dm-zoho-crm-wrapper",
     "license": "MIT",
@@ -12,14 +12,5 @@
                 "app"
               ]
         }
-	},
-	"require": {
-		"zohocrm/php-sdk-archive": "dev-php81" 
-	},
-	"repositories": [
-		{
-			"type": "vcs",
-			"url": "https://github.com/DevMaverickTeam/zcrm-php-sdk-php81.git"
-		}
-	]
+	}
 }
