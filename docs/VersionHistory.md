@@ -1,5 +1,10 @@
 # Version History
 
+## 1.0.17 (released 2021-02-26)
+* Fixed exception handling
+
+....
+
 ## 1.0.14 (released 2021-02-26)
 * A quick cleanup allowing search to work
 
