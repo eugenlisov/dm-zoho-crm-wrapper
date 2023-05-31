@@ -376,7 +376,7 @@ class ZohoCRMModules extends ZohoCRM { // Not an abstract because we instantiate
             // Do the search
             $bulkAPIResponse = $instance::$module_instance -> searchRecordsByCriteria( $criteria_string );
 
-        } catch (\ZCRMException $e) {
+        } catch (\Exception $e) {
             return [];
             // echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
