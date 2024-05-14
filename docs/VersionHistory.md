@@ -1,5 +1,9 @@
 # Version History
 
+
+## 1.0.19 (released 2024-05-14)
+* Skipped version 1.0.18 to allow push to packagist
+
 ## 1.0.18 (released 2024-05-14)
 * Account extracts the 'dm_price_list_id' property
 
