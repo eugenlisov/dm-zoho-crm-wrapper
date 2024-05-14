@@ -1,5 +1,7 @@
 # Version History
 
+## 1.0.20 (released 2024-05-14)
+* Added missing return statement
 
 ## 1.0.19 (released 2024-05-14)
 * Skipped version 1.0.18 to allow push to packagist
