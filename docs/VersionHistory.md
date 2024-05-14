@@ -1,5 +1,8 @@
 # Version History
 
+## 1.0.18 (released 2024-05-14)
+* Account extracts the 'dm_price_list_id' property
+
 ## 1.0.17 (released 2021-02-26)
 * Fixed exception handling
 
