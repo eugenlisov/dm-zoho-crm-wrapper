@@ -11,6 +11,8 @@ class Account extends ZohoCRMModules {
 		$return['dm_price_list_id'] = ($rawData['Price_List']) 
 										? $rawData['Price_List']->getEntityId() 
 										: null;
+
+		return $return;
     }
 
 }
