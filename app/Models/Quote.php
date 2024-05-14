@@ -6,6 +6,9 @@ use com\zoho\crm\api\record\InventoryLineItems;
 class Quote extends BaseRecord {
 
 	public $module = 'Quotes';
+	public $specifficFields = [
+		'Product_Details'
+	];
 
 	public static function extractProducts(Array $record) {
 

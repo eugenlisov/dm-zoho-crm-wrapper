@@ -10,7 +10,7 @@ use DM_ZCRM\Models\BaseRecord;
 
 class BaseRecordTestDouble extends BaseRecord {
 	public function __construct() {
-		$this->raw_record = $this->rawSimpleRecord();
+		
 	}
 
 	public function rawSimpleRecord() {
@@ -27,6 +27,23 @@ class BaseRecordTestDouble extends BaseRecord {
 		// Add a DateTime field
 		$record->addFieldValue(new Field('Some_Date'), new DateTime('now'));
 		
+
+		return $record;
+	}
+
+	public function rawSimpleRmaRecord() {
+		$record = new Record;
+
+		$grandchildRecord = new Record;
+		$grandchildRecord->addKeyValue('name', 'CR&R Waste');
+		$grandchildRecord->setId('123123123');
+
+		$childRecord = new Record;
+		$childRecord->addFieldValue(new Field('Account'), $grandchildRecord);
+		$childRecord->addFieldValue(new Field('Postal_Code'), '92708');
+
+
+		$record->addFieldValue(new Field('Ship_To'), [$childRecord]);
 
 		return $record;
 	}
