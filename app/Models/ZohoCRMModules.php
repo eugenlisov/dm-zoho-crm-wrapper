@@ -133,6 +133,7 @@ class ZohoCRMModules extends ZohoCRM { // Not an abstract because we instantiate
         // Two of the fields we need on all Record types
         $return['id']      = $record -> getEntityId();
         $return['created'] = $record -> getCreatedTime();
+		$return['modified_at'] = $record -> getModifiedTime();
 
 
 
