@@ -1,5 +1,6 @@
 # Version History
 
+## 1.0.21 (released 2024-09-03)
 * Copied the updateWithoutWf() method to ZohoCRMModules
 
 ## 1.0.20 (released 2024-05-14)
