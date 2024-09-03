@@ -260,6 +260,52 @@ class ZohoCRMModules extends ZohoCRM { // Not an abstract because we instantiate
 
     }
 
+	// Copied from ZohoBooks plugin. It's slightly different from the update() above, but not signifficantly
+	public static function updateWithoutWf( $record_id = false, $properties = [] ) {
+
+        if ( empty( $record_id ) ) return false;
+        if ( empty( $properties ) ) return false;
+
+		static::new();
+
+
+        $record = ZCRMRecord::getInstance( static::$module, null );
+
+        $record -> setFieldValue( 'id', $record_id );
+        foreach ($properties  as $key => $value) {
+            $record->setFieldValue( $key, $value );
+        }
+
+		// $recordsArray - array of ZCRMRecord instances filled with required data for creation.
+		$trigger = [];
+        $bulkAPIResponse = self::$module_instance->updateRecords( [$record], $trigger );
+        $entityResponses = $bulkAPIResponse->getEntityResponses();
+
+        foreach($entityResponses as $entityResponse)
+        {
+            if ("success"==$entityResponse->getStatus()) {
+
+                $createdRecordInstance=$entityResponse->getData();
+
+                $return = $createdRecordInstance -> getData();
+                $return['id'] = $createdRecordInstance -> getEntityId();
+
+            } else {
+
+                $return = [
+                    'status'         => $entityResponse -> getStatus(),
+                    'code'           => $entityResponse -> getCode(),
+                    'message'        => $entityResponse -> getMessage(),
+                    'custom_message' => 'The Quote was not generated. See if you can fix the issue and try again. Otherwise, please contact the developer with details about this issue to look into it.',
+                ];
+
+            }
+        }
+
+        return $return;
+
+    }
+
     // This instantiates the model so we can go ahead and create a Zoho CRM Record with it.
     public static function new( $data = [] ) {
         return new static( $data );
