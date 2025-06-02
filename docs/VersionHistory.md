@@ -1,5 +1,8 @@
 # Version History
 
+## 1.0.22 (released 2025-06-02)
+* Calculating Quote total and total_after_discount of Quote load, search and list
+
 ## 1.0.21 (released 2024-09-03)
 * Copied the updateWithoutWf() method to ZohoCRMModules
 
