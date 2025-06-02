@@ -157,8 +157,6 @@ class ZohoCRMModules extends ZohoCRM { // Not an abstract because we instantiate
     // ];
     public static function list( $args = [] ) {
 
-		// dd($args);
-
 		static::new();
 		// dd(static::$module_instance);
 
@@ -183,6 +181,7 @@ class ZohoCRMModules extends ZohoCRM { // Not an abstract because we instantiate
             // For products we need to extract the products in a particular format.
             if ( static::$module == 'Quotes' ) {
 				$return[$id]['products'] = static::extract_products( $record );
+				$return[$id] = static::calculateTotal($return[$id]); 
 				$return[$id]['dm_contact_id'] = static::extract_contact_id( $record ); // NB: Need to extract this because searching for a Books Contact doesn't work just with the CRM Account ID.
 			}
 			
@@ -444,6 +443,8 @@ class ZohoCRMModules extends ZohoCRM { // Not an abstract because we instantiate
             // For products we need to extract the products in a particular format.
             if ( static::$module == 'Quotes' ) {
                 $return[$key]['products'] = static::extract_products( $record );
+
+				$return[$key] = static::calculateTotal($return[$key]); 
             }
 
             // Attach the Records ID and Created times.

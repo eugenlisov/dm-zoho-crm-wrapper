@@ -8,6 +8,7 @@ class Quote extends ZohoCRMModules {
     
     protected static function extract_module_specific_details( $record = '', $return = '', $args = []) {
         $return['products'] = static::extract_products( $record );
+		$return = static::calculateTotal($return); // Requires $return['products'] to be calculated by extract_products()
 		$return['dm_account_id'] = static::extract_account_id( $record ); // NB: Need to extract this because searching for a Books Contact doesn't work just with the CRM Account ID.
 		$return['dm_contact_id'] = static::extract_contact_id( $record ); // NB: Need to extract this because searching for a Books Contact doesn't work just with the CRM Account ID.
         $return['dm_potential_name'] = static::extract_potential_name( $record ); // NB: Need to extract this because to populate the value in the 'Notes' field on the Books Estimate.
@@ -41,6 +42,8 @@ class Quote extends ZohoCRMModules {
                 'description'         => $item->getDescription(),
                 'discount'            => $item->getDiscount(),
                 'discount_percentage' => $item->getDiscountPercentage(),
+				'total'               => $item->getTotal(),
+				'total_after_discount' => $item->getTotalAfterDiscount(),
             ];
 
             $products[] = $current_product;
@@ -48,6 +51,22 @@ class Quote extends ZohoCRMModules {
         }
 
         return $products;
+
+    }
+
+	protected static function calculateTotal( $return ) {
+		$total = 0;
+		$totalAfterDiscounts = 0;
+
+		foreach ($return['products'] as $key => $lineItem) {
+			$total += $lineItem['total'];
+			$totalAfterDiscounts += $lineItem['total_after_discount'];
+		}
+		
+		$return['total'] = $total;
+		$return['total_after_discount'] = $totalAfterDiscounts;
+
+		return $return;
 
     }
 
