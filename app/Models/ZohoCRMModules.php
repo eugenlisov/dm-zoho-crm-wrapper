@@ -360,7 +360,9 @@ class ZohoCRMModules extends ZohoCRM { // Not an abstract because we instantiate
         
        }
 
-       $bulkAPIResponse = static::$module_instance->createRecords( [$record] ); 
+	   
+	   $trigger = ['workflow'];
+       $bulkAPIResponse = static::$module_instance->createRecords( [$record], $trigger ); 
 
        $entityResponses = $bulkAPIResponse->getEntityResponses();
 
