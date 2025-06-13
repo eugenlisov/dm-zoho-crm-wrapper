@@ -1,5 +1,8 @@
 # Version History
 
+## 1.0.24 (released 2025-06-13)
+* Triggering workflows when creating a new record
+
 ## 1.0.23 (released 2025-06-13)
 * Added Record::delete() method
 
