@@ -65,6 +65,26 @@ class ZohoCRMModules extends ZohoCRM { // Not an abstract because we instantiate
         return $return;
 
 	}
+
+	public static function delete($recordId)
+	{
+		static::new();
+
+		try {
+			$apiResponse = static::$module_instance->getRecord($recordId);
+			$response = $apiResponse->getData()->delete();
+		} catch (\Exception $e) {
+			// return [];
+			echo 'Caught exception: ',  $e->getMessage(), "\n";
+			return [];
+		}
+
+		$json = $response->getResponseJSON();
+		if ($json['data'][0])
+			return $json['data'][0];
+
+		return $json;
+	}
 	
 
 	public static function getFields() { // Used the the LayoutFieldsExtractor in Lead
